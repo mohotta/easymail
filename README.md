@@ -1,6 +1,6 @@
 # Easymail - Email Client
 
-![cover](https://drive.google.com/file/d/1YfFrYYil6yk4mAQJ4Ep5iy9fVmWUelso/view?usp=sharing)
+![cover](https://krisetyatech.com/wp-content/uploads/2021/08/email-1.png)
 
 This project is an assignment given to us in Semester 2 module CS1040-Program Construction in University of Moratuwa Sri Lanka  
 This client is capable of,  
@@ -15,4 +15,4 @@ This client is capable of,
             
 Working on adding recieving email feature in the future too.  
     
-Any suggessions : drop an email to kumudu.20@cse.mrt.ac.lk                   
+Any suggessions : drop an email to kumudu.20@cse.mrt.ac.lk or contact me on [LinkedIn](https://www.linkedin.com/in/kumudu-mohottala-265369200/)                
