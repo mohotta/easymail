@@ -1,6 +1,8 @@
 # Easymail - Email Client
-     
-This project is a assignment given to us in Semester 2 module CS1040-Program Construction in University of Moratuwa Sri Lanka  
+
+![cover](https://drive.google.com/file/d/1YfFrYYil6yk4mAQJ4Ep5iy9fVmWUelso/view?usp=sharing)
+
+This project is an assignment given to us in Semester 2 module CS1040-Program Construction in University of Moratuwa Sri Lanka  
 This client is capable of,  
 >1. Send emails to whatever account you want  
 >2. Create recipient list conaining  
