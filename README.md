@@ -9,7 +9,7 @@ This client is capable of,
 >>* official contacts  
 >>* office friend contacts  
 >>* Friends contacts  
->3. Friend contact types ask you fortheir birthdays and automatcally send birthday wishes through email  
+>3. Friend contact types ask you for their birthdays and automatcally send birthday wishes through email  
 >4. And also, You can find bithday person in a particular day  
 >5. You can get history of emails sent in a particular day  
             
