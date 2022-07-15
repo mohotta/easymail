@@ -1,6 +1,6 @@
 # Easymail - Email Client
 
-![cover](https://drive.google.com/file/d/1YfFrYYil6yk4mAQJ4Ep5iy9fVmWUelso/view?usp=sharing)
+![cover]([https://drive.google.com/file/d/1YfFrYYil6yk4mAQJ4Ep5iy9fVmWUelso/view?usp=sharing](https://drive.google.com/file/d/1YfFrYYil6yk4mAQJ4Ep5iy9fVmWUelso/view?usp=sharing))
 
 This project is an assignment given to us in Semester 2 module CS1040-Program Construction in University of Moratuwa Sri Lanka  
 This client is capable of,  
