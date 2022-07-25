@@ -15,8 +15,8 @@ public class EmailSenderJavaMail implements IEmailSender{
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", "smtp.office365.com");
         properties.put("mail.smtp.port", "587");
-        String emailAccount = "klmint@outlook.com"; // remove before submission
-        String password = "NatGeo50PEO";
+        String emailAccount = "xxxxxx@outlook.com"; // remove before submission
+        String password = "xxxxxxx";
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
