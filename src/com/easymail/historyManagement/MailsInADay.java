@@ -1,6 +1,6 @@
 package com.easymail.historyManagement;
 
-// create and manages EmailHistory object per day
+// create and manages EmailHistory object for each day
 
 import com.easymail.emailSender.Email;
 
@@ -12,42 +12,44 @@ public class MailsInADay {
 
     private MailsInADay() {} // just to make constructor private (Singleton)
 
-    public static void createInstance() {
-        mailsInADay = new MailsInADay();
-        File historyFile = new File("historySave.txt");
-        if (!historyFile.exists()) {
-            mailsInADay.emailHistoryObjects = new EmailHistoryObjects();
-        }
-        else {
-            try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(historyFile));
-                mailsInADay.emailHistoryObjects = (EmailHistoryObjects) objectInputStream.readObject();
+    public static MailsInADay getInstance() {
+        if (isNotCreated()) {
+            mailsInADay = new MailsInADay();
+            File historyFile = new File("historySave.txt");
+            if (!historyFile.exists()) {
+                mailsInADay.emailHistoryObjects = new EmailHistoryObjects();
+            } else {
+                try {
+                    ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(historyFile));
+                    mailsInADay.emailHistoryObjects = (EmailHistoryObjects) objectInputStream.readObject();
+                } catch (IOException | ClassNotFoundException ex) {
+                    System.out.println("Error while reading history file!");
+                }
             }
-            catch (IOException | ClassNotFoundException ex) {
-                System.out.println("Error while reading history file!");
-            }
         }
+        return mailsInADay;
     }
 
-    public static boolean isNotCreated() {
+    private static boolean isNotCreated() {
         return mailsInADay == null;
     }
 
-    public static void save(Email email) {
-        mailsInADay.emailHistoryObjects.addToHistory(email);
+    public void save(Email email) {
+        emailHistoryObjects.addToHistory(email);
     }
 
-    public static void printHistory(String dateString) {
-        var emailsInTheDay = mailsInADay.emailHistoryObjects.getHistory().get(dateString);
+    public void printHistory(String dateString) {
+        var emailsInTheDay = emailHistoryObjects.getHistory().get(dateString);
         for (Email email : emailsInTheDay)
             System.out.println(email);
     }
 
     public static void close() {
+        var mailsInADayToSave = getInstance();
         try {
             File historyFile = new File("historySave.txt");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(historyFile));
-            objectOutputStream.writeObject(historyFile);
+            objectOutputStream.writeObject(mailsInADayToSave.emailHistoryObjects);
         } catch (IOException e) {
             e.printStackTrace();
         }

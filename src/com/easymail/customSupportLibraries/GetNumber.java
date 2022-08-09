@@ -3,6 +3,7 @@ package com.easymail.customSupportLibraries;
 import java.util.Scanner;
 
 public class GetNumber {
+    // get byte value with constraints
     public static byte getByte(byte constraint1, byte constraint2) {
         var input =  new Scanner(System.in);
         byte byteValue;

@@ -4,6 +4,8 @@ package com.easymail;
 
 import com.easymail.customSupportLibraries.DateOperations;
 import com.easymail.historyManagement.MailsInADay;
+import com.easymail.recipients.RecipientBirthday;
+import com.easymail.recipients.RecipientList;
 
 import java.io.*;
 import java.util.Date;
@@ -18,13 +20,13 @@ public class Program {
     private static Date lastOpenedDay;
 
     private Program() {
-        try {
+        try { // grab last opened day
             var reader = new Scanner(dateSave);
             String dateString = reader.nextLine();
             lastOpenedDay = DateOperations.dateFromString(dateString);
         }
         catch (FileNotFoundException | NoSuchElementException ex) {
-            lastOpenedDay = new Date();
+            lastOpenedDay = new Date(); // create new date if this is first time opening
         }
     }
 

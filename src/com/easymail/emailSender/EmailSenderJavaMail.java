@@ -1,5 +1,7 @@
 package com.easymail.emailSender;
 
+import com.easymail.historyManagement.MailsInADay;
+
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -13,10 +15,10 @@ public class EmailSenderJavaMail implements IEmailSender{
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.office365.com");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-        String emailAccount = "xxxxxx@outlook.com"; // remove before submission
-        String password = "xxxxxxx";
+        String emailAccount = "xxxxxxx@gmail.com";
+        String password = "xxxxx";
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -38,6 +40,10 @@ public class EmailSenderJavaMail implements IEmailSender{
             message.setSubject(email.subject);
             message.setText(email.content);
             Transport.send(message);
+
+            MailsInADay mailsInADay = MailsInADay.getInstance();
+            mailsInADay.save(email);
+
             System.out.println("Email(s) sent successfully!");
         }
         catch (AddressException e) {

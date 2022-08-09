@@ -3,6 +3,7 @@ package com.easymail;
 // B.M.K.L.Mohottala
 // 200399G
 
+import com.easymail.customSupportLibraries.DateOperations;
 import com.easymail.customSupportLibraries.GetNumber;
 import com.easymail.customSupportLibraries.GetString;
 import com.easymail.emailSender.Email;
@@ -10,9 +11,14 @@ import com.easymail.emailSender.EmailCreator;
 import com.easymail.emailSender.EmailSenderJavaMail;
 import com.easymail.emailSender.IEmailSender;
 import com.easymail.historyManagement.MailsInADay;
-import com.easymail.recipients.FriendRecipient;
-import com.easymail.recipients.OfficeFriendRecipient;
-import com.easymail.recipients.OfficialRecipient;
+import com.easymail.recipients.RecipientBirthday;
+import com.easymail.recipients.RecipientList;
+import com.easymail.recipients.generators.FriendRecipientGenerator;
+import com.easymail.recipients.generators.OfficeFriendRecipientGenerator;
+import com.easymail.recipients.generators.OfficialRecipientGenerator;
+import com.easymail.recipients.generators.RecipientGenerator;
+
+import java.util.Date;
 
 public class Main {
 
@@ -20,125 +26,107 @@ public class Main {
 
         Program.start();
 
+        printBorder();
+        centerString(" EasyMail - 200399G ", 15, 15, '=');
+
         while (true) {
 
+            printBorder();
+            printIntro();
+            printBorder();
+
             byte choice;
-
-            String line = new String(new char[50]).replace('\0', '-');
-
-            System.out.println(line);
-            System.out.println(new String(new char[15]).replace('\0', '-') +
-                    " EasyMail - 200399G " +
-                    new String(new char[15]).replace('\0', '-'));
-            System.out.printf("%s : %s\n", "Enter no: 1 ", "Add new recipient");
-            System.out.printf("%s : %s\n", "Enter no: 2 ", "Send an email");
-            System.out.printf("%s : %s\n", "Enter no: 3 ", "Print today's birthdays");
-            System.out.printf("%s : %s\n", "Enter no: 4 ", "Print email history of a day");
-            System.out.printf("%s : %s\n", "Enter no: 5 ", "Print no: of recipients");
-            System.out.printf("%s : %s\n", "Enter no: 6 ", "Delete all saved contacts");
-            System.out.printf("%s : %s\n", "Enter no: 0 ", "Close the application");
-            System.out.println(line);
-
             System.out.print("Enter Your Choice : ");
             choice = GetNumber.getByte((byte) 0, (byte) 6);
+            printBorder();
 
             switch (choice) {
-                case 0:
-                    System.out.println(line);
-                    System.out.println(new String(new char[19]).replace('\0', '-') +
-                            " Good Bye! " +
-                            new String(new char[20]).replace('\0', '-'));
-                    System.out.println(line);
-
+                case 0 -> { // close program
+                    centerString(" Good Bye! ", 19, 20, '=');
+                    printBorder();
                     Program.close();
                     return;
-
-                case 1: // add recipient
+                }
+                case 1 -> { // add recipient
+                    centerString(" Adding New Recipient ", 14, 14, '=');
+                    printRecipientIntro();
                     byte contactType;
-
-                    System.out.println(new String(new char[14]).replace('\0', '-') +
-                            " Adding New Recipient " +
-                            new String(new char[14]).replace('\0', '-'));
-                    System.out.println("Enter recipient type,");
-                    System.out.println("\t1 to Official Contacts");
-                    System.out.println("\t2 to Official Friends");
-                    System.out.println("\t3 to Friends' Contacts");
-
                     System.out.print("Enter your choice: ");
                     contactType = GetNumber.getByte((byte) 1, (byte) 3);
-                    System.out.print("Enter name: ");
-                    var name = GetString.getNormalString();
-                    System.out.print("Enter email address: ");
-                    var email = GetString.getEmail();
-
                     switch (contactType) {
                         case 1 -> {
-                            System.out.print("Enter designation: ");
-                            var designationOfficial = GetString.getNormalString();
-                            var officialRecipient = new OfficialRecipient(name, email, designationOfficial);
-                            RecipientList.addRecipient(officialRecipient);
+                            RecipientGenerator officialRecipientGenerator =
+                                    new OfficialRecipientGenerator();
+                            officialRecipientGenerator.generateRecipient();
                         }
                         case 2 -> {
-                            System.out.print("Enter designation: ");
-                            var designationOffFriend = GetString.getNormalString();
-                            System.out.print("Enter birthday (yyyy/mm/dd): ");
-                            var birthdayOffFriend = GetString.getDate();
-                            var officeFriend = new OfficeFriendRecipient(name, email, designationOffFriend, birthdayOffFriend);
-                            RecipientList.addRecipient(officeFriend);
+                            RecipientGenerator officeFriendRecipientGenerator =
+                                    new OfficeFriendRecipientGenerator();
+                            officeFriendRecipientGenerator.generateRecipient();
                         }
                         case 3 -> {
-                            System.out.print("Enter nickname (if not skip enter 0): ");
-                            var nickName = GetString.getNormalString();
-                            if (nickName == "0") // asking for zero to prevent mixing up future inputs
-                                nickName = "<no-nick-name>";
-                            System.out.print("Enter birthday (yyyy/mm/dd): ");
-                            var birthdayFriend = GetString.getDate();
-                            var friend = new FriendRecipient(name, email, nickName, birthdayFriend);
-                            RecipientList.addRecipient(friend);
+                            RecipientGenerator friendRecipientGenerator =
+                                    new FriendRecipientGenerator();
+                            friendRecipientGenerator.generateRecipient();
                         }
                     }
-                    break;
-
-                case 2: // send email
-                    Email emailObj = EmailCreator.createEmail();
+                }
+                case 2 -> { // send email
+                    centerString(" Sending Email(s) ", 16, 16, '=');
+                    EmailCreator emailCreator = new EmailCreator();
+                    Email emailObj = emailCreator.createEmail();
                     IEmailSender mailSender = new EmailSenderJavaMail();
                     mailSender.sendEmail(emailObj);
-                    if (MailsInADay.isNotCreated())
-                        MailsInADay.createInstance();
-                    MailsInADay.save(emailObj);
-                    break;
-
-                case 3: // today birthday
-                    System.out.println(new String(new char[14]).replace('\0', '-') +
-                            " Today's Birthday List " +
-                            new String(new char[14]).replace('\0', '-'));
+                }
+                case 3 -> { // today birthday
+                    centerString(" Today's Birthday List ", 14, 14, '=');
                     RecipientBirthday.printTodayBirthday();
-                    break;
-
-                case 4: // email history
-                    System.out.print("Enter the date you want see history (yyyy/mm/dd): ");
-                    String dateString = GetString.getNormalString();
-                    if (MailsInADay.isNotCreated())
-                        MailsInADay.createInstance();
-                    MailsInADay.printHistory(dateString);
-                    break;
-
-                case 5: // no of recipients
-                    System.out.println(new String(new char[14]).replace('\0', '-') +
-                            " Number of Recipients " +
-                            new String(new char[14]).replace('\0', '-'));
-
+                }
+                case 4 -> { // email history
+                    centerString(" Email History of a Day ", 13, 13, '=');
+                    System.out.print("Enter the date (yyyy/mm/dd): ");
+                    Date date = GetString.getDate();
+                    String dateString = DateOperations.dateToString(date);
+                    MailsInADay mailsInADay = MailsInADay.getInstance();
+                    mailsInADay.printHistory(dateString);
+                }
+                case 5 -> { // no of recipients
+                    centerString(" Number of Recipients ", 14, 14, '=');
                     System.out.println("Current no: of recipients: " + RecipientList.recipientCount);
-                    break;
-
-                case 6: // delete all recipients
-                    System.out.println(new String(new char[13]).replace('\0', '-') +
-                            " Deleting All Contacts " +
-                            new String(new char[14]).replace('\0', '-'));
-
+                }
+                case 6 -> { // delete all recipients
+                    centerString(" Deleting All Contacts ", 14, 14, '=');
                     RecipientList.cleanRecipientList();
-                    break;
+                }
             }
         }
     }
+
+    public static void printBorder() {
+        System.out.println(new String(new char[50]).replace('\0', '='));
+    }
+
+    public static void printIntro() {
+        System.out.printf("%s : %s\n", "Enter no: 1 ", "Add new recipient");
+        System.out.printf("%s : %s\n", "Enter no: 2 ", "Send an email");
+        System.out.printf("%s : %s\n", "Enter no: 3 ", "Print today's birthdays");
+        System.out.printf("%s : %s\n", "Enter no: 4 ", "Print email history of a day");
+        System.out.printf("%s : %s\n", "Enter no: 5 ", "Print no: of recipients");
+        System.out.printf("%s : %s\n", "Enter no: 6 ", "Delete all saved contacts");
+        System.out.printf("%s : %s\n", "Enter no: 0 ", "Close the application");
+    }
+
+    public static void printRecipientIntro() {
+        System.out.println("Enter recipient type,");
+        System.out.printf("\t%s : %s\n", "Enter no: 1","for Official Contacts");
+        System.out.printf("\t%s : %s\n", "Enter no: 2","for Official Friends");
+        System.out.printf("\t%s : %s\n", "Enter no: 3","for Contacts");
+    }
+
+    public static void centerString(String string, int left, int right, char character) {
+        System.out.println(new String(new char[left]).replace('\0', character) +
+                string +
+                new String(new char[right]).replace('\0', character));
+    }
 }
+

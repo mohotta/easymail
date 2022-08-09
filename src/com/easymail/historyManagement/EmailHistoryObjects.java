@@ -1,11 +1,14 @@
 package com.easymail.historyManagement;
 
+// creates history of sent mails for a day
+
 import com.easymail.customSupportLibraries.DateOperations;
 import com.easymail.emailSender.Email;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class EmailHistoryObjects{
+public class EmailHistoryObjects implements Serializable {
     private Map<String, List<Email>> history;
 
     public EmailHistoryObjects() {

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class GetString {
 
-    public static Date getDate() {
+    public static Date getDate() { // function to get date input
         var input = new Scanner(System.in);
         while (true) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");

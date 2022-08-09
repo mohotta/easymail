@@ -4,9 +4,10 @@ package com.easymail.emailSender;
 
 import com.easymail.customSupportLibraries.DateOperations;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Email {
+public class Email implements Serializable {
     public String toRecipient;
     public String[] carbonCopy;
     public String[] blindCarbonCopy;
@@ -36,22 +37,20 @@ public class Email {
 
     @Override
     public String toString() {
-        String string = "To : " + toRecipient + "\n";
-
+        String string = new String(new char[50]).replace('\0', '-');
+        string += "\n";
+        string += "To : " + toRecipient + "\n";
         string += "Cc : ";
         for (String cc : carbonCopy)
             string += cc + ", ";
         string += "\n";
-
         string += "Bcc : ";
         for (String bcc : blindCarbonCopy)
             string += bcc + ", ";
         string += "\n";
-
         string += "sent on : " + DateOperations.dateToTimeString(sentDate) + "\n";
-
-        string += subject;
-
+        string += "Subject : " + subject + "\n";
+        string += new String(new char[50]).replace('\0', '-');
         return string;
     }
 }

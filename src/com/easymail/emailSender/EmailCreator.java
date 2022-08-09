@@ -2,13 +2,15 @@ package com.easymail.emailSender;
 
 // creating email objects from input
 
-import com.easymail.RecipientList;
+import com.easymail.recipients.RecipientList;
 import com.easymail.customSupportLibraries.GetNumber;
 import com.easymail.customSupportLibraries.GetString;
 
 public class EmailCreator {
 
-    public static Email createEmail() {
+    private Email email;
+
+    public Email createEmail() {
         var toRecipient = getEmailInput("receiver");
 
         System.out.print("How many carbon copies you want? ");
@@ -34,8 +36,8 @@ public class EmailCreator {
         return new Email(toRecipient, carbonCopies, blindCarbonCopies, subject, content);
     }
 
-    private static String getEmailInput(String receiverType) {
-        String email = null; // this implementation is tricky, try later
+    private String getEmailInput(String receiverType) {
+        String email = null;
         System.out.println("Enter " + receiverType + ": ");
         System.out.println("\tEnter 1 to search by name: ");
         System.out.println("\tEnter 2 to enter email: ");
@@ -43,32 +45,30 @@ public class EmailCreator {
         byte choice = GetNumber.getByte((byte) 1, (byte) 2);
 
         switch (choice) {
-            case 1:
+            case 1 -> {
                 System.out.print("Enter receiver's name (must be in contact list): ");
                 while (true) {
                     var name = GetString.getNormalString();
                     var emailValue = searchEmailByName(name);
                     if (emailValue == null) {
-                        System.out.print("Name not found, Try again: "); // do something to the flow
-                    }
-                    else {
+                        System.out.print("Name not found, Try again: ");
+                    } else {
                         email = emailValue;
                         break;
                     }
                 }
-                break;
-
-            case 2:
+            }
+            case 2 -> {
                 System.out.print("Enter receiver's email: ");
                 email = GetString.getEmail();
-                break;
+            }
         }
         return email;
     }
 
-    private static String searchEmailByName(String name) {
+    private String searchEmailByName(String name) {
         var recipientList = RecipientList.readRecipientList();
-        if (recipientList.containsKey(name))
+        if (recipientList.containsKey(name.toLowerCase()))
             return recipientList.get(name).email;
         else
             return null; // name not found
