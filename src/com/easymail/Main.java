@@ -102,11 +102,11 @@ public class Main {
         }
     }
 
-    public static void printBorder() {
+    private static void printBorder() {
         System.out.println(new String(new char[50]).replace('\0', '='));
     }
 
-    public static void printIntro() {
+    private static void printIntro() {
         System.out.printf("%s : %s\n", "Enter no: 1 ", "Add new recipient");
         System.out.printf("%s : %s\n", "Enter no: 2 ", "Send an email");
         System.out.printf("%s : %s\n", "Enter no: 3 ", "Print today's birthdays");
@@ -116,14 +116,14 @@ public class Main {
         System.out.printf("%s : %s\n", "Enter no: 0 ", "Close the application");
     }
 
-    public static void printRecipientIntro() {
+    private static void printRecipientIntro() {
         System.out.println("Enter recipient type,");
         System.out.printf("\t%s : %s\n", "Enter no: 1","for Official Contacts");
         System.out.printf("\t%s : %s\n", "Enter no: 2","for Official Friends");
         System.out.printf("\t%s : %s\n", "Enter no: 3","for Contacts");
     }
 
-    public static void centerString(String string, int left, int right, char character) {
+    private static void centerString(String string, int left, int right, char character) {
         System.out.println(new String(new char[left]).replace('\0', character) +
                 string +
                 new String(new char[right]).replace('\0', character));

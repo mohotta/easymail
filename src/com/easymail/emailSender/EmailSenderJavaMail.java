@@ -18,7 +18,7 @@ public class EmailSenderJavaMail implements IEmailSender{
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
         String emailAccount = "xxxxxxx@gmail.com";
-        String password = "xxxxx";
+        String password = "xxxxxxxx";
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {

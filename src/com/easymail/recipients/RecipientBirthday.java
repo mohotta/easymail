@@ -51,7 +51,11 @@ public class RecipientBirthday {
         IEmailSender sender = new EmailSenderJavaMail();
         for (var recipient : recipientBirthday.todayBirthdays) {
             // birthday list cannot contain official recipients, so we don't need to filter them again
-            Email email = new Email(recipient.email, wishMailSubject, friendWish);
+            Email email;
+            if (recipient instanceof OfficeFriendRecipient)
+                email = new Email(recipient.email, wishMailSubject, officeFriendWish);
+            else
+                email = new Email(recipient.email, wishMailSubject, friendWish);
             sender.sendEmail(email);
         }
     }
