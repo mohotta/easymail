@@ -32,6 +32,11 @@ public class RecipientBirthday {
         }
     }
 
+    public static void updateBirthdays(Recipient recipient) {
+        if (isTodayBirthday(recipient))
+            recipientBirthday.todayBirthdays.add(recipient);
+    }
+
     public static void printTodayBirthday() {
         if (recipientBirthday.todayBirthdays.isEmpty())
             System.out.println("No birthdays today!");

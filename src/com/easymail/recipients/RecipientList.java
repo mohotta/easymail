@@ -26,6 +26,8 @@ public class RecipientList {
             writer.println(recipient.toString());
             System.out.println("Adding recipient successful!");
             writer.flush();
+            // updating birthday list if added recipient have birthday today
+            RecipientBirthday.updateBirthdays(recipient);
             recipientCount++;
         }
         catch (IOException ex) {
@@ -55,6 +57,7 @@ public class RecipientList {
             }
             reader.close();
         }
+        // kept empty to remove distractions in first opening
         catch (FileNotFoundException ex) {}
         return recipientList;
     }
@@ -65,6 +68,7 @@ public class RecipientList {
             recipientCount = 0;
             System.out.println("All contacts deleted successfully!");
         }
+        // kept empty to remove distractions in first opening
         catch (IOException ex) {}
     }
 
